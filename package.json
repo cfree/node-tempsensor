@@ -1,0 +1,16 @@
+{
+  "name": "tempsensor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "index.js": "^0.0.3",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Craig Freeman <craigfreeman@gmail.com>",
+  "license": "UNLICENSED"
+}
