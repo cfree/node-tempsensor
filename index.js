@@ -1,4 +1,4 @@
-const getTempSensorData = require('./data.js');
+const { getSensors, getTemperature } = require('./data.js');
 const reportTemp = require('./report.js');
 const { hasMinimumTimeElapsed } = require('./utils.js');
 
@@ -7,16 +7,18 @@ const [,, reportTempInF = 35, measurementFrequencyInMs = 5000, reportFrequencyIn
 let prevTemp;
 let count = 1;
 let lastReportTime;
+const [serialNum] = getSensors();
 
-console.log(`Report temperature: ${reportTempInF}deg and below`);
+console.log(`Temp Sensor: ${serialNum}`);
+console.log(`Report temperature: ${reportTempInF}deg F and below`);
 console.log(`Measurement frequency: ${measurementFrequencyInMs}ms`);
 console.log(`Report frequency: ${reportFrequencyInMs}ms`);
 console.log(`---------------------------------`);
 
-function loop() {
-  console.log(`${count} read${count !== 1 ? 's' : ''}`);
+function loop() {    
+  const { fahrenheit: currentTemp } = getTemperature(serialNum);
     
-  const currentTemp = getTempSensorData();
+  console.log(`Read ${count}: ${currentTemp}deg F`);
     
   if (currentTemp <= reportTempInF && hasMinimumTimeElapsed(lastReportTime, reportFrequencyInMs)) {
     lastReportTime = new Date();
