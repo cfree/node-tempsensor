@@ -4,7 +4,7 @@ const { readFileSync, readdirSync, statSync } = require('fs');
 const pathPrefix = '/sys/bus/w1/devices';
 
 function getSensors() {
-  // Serial: 28-02131a3091aa  
+  // Serial: 28-02131a3091aa
   try {
     const results = readdirSync(pathPrefix)
       .filter(file => statSync(join(pathPrefix, file)).isDirectory())
@@ -34,7 +34,7 @@ function parseData(data) {
     const celsiusTemp = values[9].slice(2) / 1000;
 
     return {
-      celsius: celsiusTemp ? celsiusTemp : null,
+      celsius: celsiusTemp || null,
       fahrenheit: celsiusTemp ? parseInt((celsiusTemp * 1.8) + 32, 10) : null,
     };
   }
