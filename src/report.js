@@ -4,4 +4,6 @@ function reportTemp(temp, timestamp) {
 	console.log(`Reported: ${temp}deg F at ${timestamp}`);
 }
 
-module.exports = reportTemp;
+module.exports = {
+  reportTemp,
+};
