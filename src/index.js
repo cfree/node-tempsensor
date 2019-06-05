@@ -1,6 +1,7 @@
 const { getSensors, getTemperature } = require('./data');
 const { reportTemp } = require('./report');
 const { hasMinimumTimeElapsed } = require('./utils');
+require('dotenv').config();
 
 const [,, reportTempInF = 35, measurementFrequencyInMs = 5000, reportFrequencyInMs = (1000 * 60 * 60)] = process.argv;
 
@@ -23,7 +24,7 @@ if (serialNum) {
     if (currentTemp) {
       if (currentTemp <= reportTempInF && hasMinimumTimeElapsed(lastReportTime, reportFrequencyInMs)) {
         lastReportTime = new Date();
-        reportTemp(currentTemp, lastReportTime.toISOString());
+        reportTemp(currentTemp, reportTempInF, lastReportTime.toISOString());
       }
 
       count++;

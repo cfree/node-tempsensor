@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
