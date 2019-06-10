@@ -4,7 +4,7 @@ Using a Raspberry Pi Zero WH, a temperature sensor, and some code, I created a d
 
 ## Walkthrough
 
-
+[Cold Snap: Temperature Reporting IoT Device](http://craigfreeman.net/blog/2019/06/cold-snap-temperature-reporting-iot-device/)
 
 ## Usage
 
