@@ -4,7 +4,6 @@ const { readFileSync, readdirSync, statSync } = require('fs');
 const pathPrefix = '/sys/bus/w1/devices';
 
 function getSensors() {
-  // Serial: 28-02131a3091aa
   try {
     const results = readdirSync(pathPrefix)
       .filter(file => statSync(join(pathPrefix, file)).isDirectory())
