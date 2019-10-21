@@ -1,7 +1,10 @@
 const fetch = require('node-fetch');
+const { zonedTimeToUtc } = require('date-fns-tz');
 
 function reportTemp(temp, threshold, timestamp) {
-  return fetch(`${process.env.REPORT_URL}/report?temp=${temp}&threshold=${threshold}&timestamp=${timestamp}`)
+  const utcTime = zonedTimeToUtc(timestamp.toString(), 'America/Denver');
+
+  return fetch(`${process.env.REPORT_URL}/report?temp=${temp}&threshold=${threshold}&timestamp=${utcTime.valueOf()}`)
     .then((res) => res.json())
     .then((data) => {
       console.log(`Temperature report triggered: ${temp}deg F at ${timestamp}. Message: ${data}`);
@@ -11,7 +14,9 @@ function reportTemp(temp, threshold, timestamp) {
 }
 
 function reportStatus(temp, threshold, timestamp, triggerCount) {
-  return fetch(`${process.env.REPORT_URL}/status?temp=${temp}&threshold=${threshold}&timestamp=${timestamp}&triggerCount=${triggerCount}`)
+  const utcTime = zonedTimeToUtc(timestamp.toString(), 'America/Denver');
+
+  return fetch(`${process.env.REPORT_URL}/status?temp=${temp}&threshold=${threshold}&timestamp=${utcTime.valueOf()}&triggerCount=${triggerCount}`)
     .then((res) => res.json())
     .then((data) => {
       console.log(`Status report sent: ${temp}deg F at ${timestamp}. Message: ${data}`);

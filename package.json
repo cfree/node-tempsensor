@@ -4,6 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "dependencies": {
+    "date-fns": "^2.5.1",
+    "date-fns-tz": "^1.0.8",
     "dotenv": "^8.0.0",
     "node-fetch": "^2.6.0"
   },
