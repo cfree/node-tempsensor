@@ -1,19 +1,22 @@
 const { getSensors, getTemperature } = require('./data');
-const { reportTemp } = require('./report');
+const { reportTemp, reportStatus } = require('./report');
 const { hasMinimumTimeElapsed } = require('./utils');
 require('dotenv').config();
 
-const [,, reportTempInF = 35, measurementFrequencyInMs = 5000, reportFrequencyInMs = (1000 * 60 * 60)] = process.argv;
+const [,, reportTempInF = 35, measurementFrequencyInMs = 5000, triggerReportFrequencyInMs = (1000 * 60 * 60), statusReportFrequencyInMs = (1000 * 60 * 24)] = process.argv;
 
 let count = 1;
-let lastReportTime;
+let triggerCount = 0;
+let lastTriggerReportTime;
+let lastStatusReportTime = null;
 const [serialNum] = getSensors();
 
 if (serialNum) {
   console.log(`Temp Sensor: ${serialNum}`);
   console.log(`Report temperature: ${reportTempInF}deg F and below`);
   console.log(`Measurement frequency: ${measurementFrequencyInMs}ms`);
-  console.log(`Report frequency: ${reportFrequencyInMs}ms`);
+  console.log(`Trigger Report frequency: ${triggerReportFrequencyInMs}ms`);
+  console.log(`Status report frequency: ${statusReportFrequencyInMs}ms`);
   console.log(`---------------------------------`);
 
   function loop() {
@@ -22,9 +25,16 @@ if (serialNum) {
     console.log(`Read ${count}: ${currentTemp}deg F`);
 
     if (currentTemp) {
-      if (currentTemp <= reportTempInF && hasMinimumTimeElapsed(lastReportTime, reportFrequencyInMs)) {
-        lastReportTime = new Date();
-        reportTemp(currentTemp, reportTempInF, lastReportTime.toISOString());
+      if (currentTemp <= reportTempInF && hasMinimumTimeElapsed(lastTriggerReportTime, reportFrequencyInMs)) {
+        lastTriggerReportTime = Date.now();
+        reportTemp(currentTemp, reportTempInF, lastTriggerReportTime.toISOString());
+        triggerCount++;
+      }
+
+      if (typeof lastStatusReportTime === 'null' || hasMinimumTimeElapsed(lastStatusReportTime, statusReportFrequencyInMs)) {
+        lastStatusReportTime = Date.now();
+        reportStatus(currentTemp, reportTempInF, lastStatusReportTime.valueOf(), triggerCount);
+        triggerCount = 0;
       }
 
       count++;
