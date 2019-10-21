@@ -26,13 +26,13 @@ if (serialNum) {
 
     if (currentTemp) {
       if (currentTemp <= reportTempInF && hasMinimumTimeElapsed(lastTriggerReportTime, triggerReportFrequencyInMs)) {
-        lastTriggerReportTime = Date.now();
+        lastTriggerReportTime = new Date();
         reportTemp(currentTemp, reportTempInF, lastTriggerReportTime.toISOString());
         triggerCount++;
       }
 
       if (typeof lastStatusReportTime === 'null' || hasMinimumTimeElapsed(lastStatusReportTime, statusReportFrequencyInMs)) {
-        lastStatusReportTime = Date.now();
+        lastStatusReportTime = new Date();
         reportStatus(currentTemp, reportTempInF, lastStatusReportTime.valueOf(), triggerCount);
         triggerCount = 0;
       }
