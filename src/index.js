@@ -25,7 +25,7 @@ if (serialNum) {
     console.log(`Read ${count}: ${currentTemp}deg F`);
 
     if (currentTemp) {
-      if (currentTemp <= reportTempInF && hasMinimumTimeElapsed(lastTriggerReportTime, reportFrequencyInMs)) {
+      if (currentTemp <= reportTempInF && hasMinimumTimeElapsed(lastTriggerReportTime, triggerReportFrequencyInMs)) {
         lastTriggerReportTime = Date.now();
         reportTemp(currentTemp, reportTempInF, lastTriggerReportTime.toISOString());
         triggerCount++;
